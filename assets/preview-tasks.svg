@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" fill="none">
+  <rect width="320" height="180" fill="#f8fafc"/>
+  <rect x="32" y="48" width="16" height="16" rx="3" fill="#1a6b8a"/>
+  <rect x="56" y="52" width="200" height="8" rx="2" fill="#cbd5e1"/>
+  <rect x="32" y="80" width="16" height="16" rx="3" stroke="#94a3b8" stroke-width="2" fill="none"/>
+  <rect x="56" y="84" width="160" height="8" rx="2" fill="#e2e8f0"/>
+  <rect x="32" y="112" width="16" height="16" rx="3" stroke="#94a3b8" stroke-width="2" fill="none"/>
+  <rect x="56" y="116" width="180" height="8" rx="2" fill="#e2e8f0"/>
+  <text x="24" y="32" fill="#475569" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Tasks</text>
+</svg>

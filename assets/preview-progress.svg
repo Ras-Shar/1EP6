@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" fill="none">
+  <rect width="320" height="180" fill="#f1f5f9"/>
+  <path d="M40 120 L80 90 L120 100 L160 70 L200 85 L240 55 L280 65" stroke="#1a6b8a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="80" cy="90" r="4" fill="#1a6b8a"/>
+  <circle cx="160" cy="70" r="4" fill="#0ea5e9"/>
+  <text x="24" y="32" fill="#475569" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Progress</text>
+</svg>

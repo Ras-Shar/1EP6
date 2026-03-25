@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AtaxAI — Cognitive & Physical Training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy: #1e3a5f;
+      --navy-deep: #152a45;
+      --teal: #1a6b8a;
+      --teal-dark: #155a73;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --accent: #0ea5e9;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(30, 58, 95, 0.08);
+      --font: "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--gray-800);
+      background: var(--gray-50);
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      z-index: 100;
+      padding: 0.75rem 1rem;
+      background: var(--teal);
+      color: var(--white);
+    }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+    }
+
+    /* —— Header (matches title slide: white bar + logo) —— */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      padding: 0.75rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand svg {
+      flex-shrink: 0;
+    }
+
+    .header-main-nav.nav-inline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 0;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .nav-tab {
+      appearance: none;
+      font-family: inherit;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    /* Compact top bar: same rail + id + title language as vertical nav */
+    .nav-tab-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.65rem;
+      min-height: 40px;
+      border: none;
+      border-right: 1px solid rgba(148, 163, 184, 0.35);
+      background: transparent;
+      color: var(--gray-600);
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .header-main-nav .nav-tab-inline:last-child {
+      border-right: none;
+    }
+
+    .nav-tab-inline:hover {
+      color: var(--navy);
+      background: rgba(241, 245, 249, 0.8);
+    }
+
+    .nav-tab-inline[aria-selected="true"] {
+      color: var(--navy);
+      background: rgba(30, 58, 95, 0.04);
+    }
+
+    .nav-tab-rail {
+      position: relative;
+      width: 2px;
+      height: 1.35rem;
+      flex-shrink: 0;
+      background: var(--gray-100);
+      border-radius: 1px;
+    }
+
+    .nav-tab-rail-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 0;
+      background: var(--navy);
+      border-radius: 1px;
+      transition: height 0.25s ease;
+    }
+
+    .nav-tab-inline[aria-selected="true"] .nav-tab-rail-fill {
+      height: 100%;
+    }
+
+    .nav-tab-id {
+      font-size: 0.58rem;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.45;
+      min-width: 1.35rem;
+    }
+
+    .nav-tab-title {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .nav-tab-inline {
+        flex: 1 1 auto;
+        justify-content: center;
+        min-width: calc(50% - 1px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      }
+      .header-main-nav.nav-inline {
+        border-radius: 8px;
+      }
+    }
+
+    /* Vertical sidebar: no pill styles from inline */
+    .nav-tab.v-tab[aria-selected="true"] {
+      background: transparent;
+    }
+
+    /* —— Home: editorial user card + vertical nav —— */
+    .intro-panel {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: clamp(1.75rem, 4vw, 3rem);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-100);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    @media (min-width: 900px) {
+      .intro-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+        gap: clamp(2rem, 5vw, 4rem);
+        align-items: start;
+      }
+    }
+
+    .user-card {
+      position: relative;
+    }
+
+    .user-card-kicker {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin: 0 0 1rem;
+    }
+
+    .user-card-welcome {
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 200;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+      margin: 0 0 1.25rem;
+    }
+
+    h2.user-card-welcome {
+      font-weight: 200;
+    }
+
+    .user-card-welcome .user-name {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .user-card-tagline {
+      font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+      font-weight: 400;
+      color: var(--gray-600);
+      margin: 0;
+      max-width: 28ch;
+    }
+
+    .user-card-portrait {
+      margin-top: 2rem;
+      aspect-ratio: 4 / 5;
+      max-width: 280px;
+      border-radius: 4px;
+      background: linear-gradient(145deg, var(--gray-100) 0%, #e2e8f0 100%);
+      border: 1px dashed var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-600);
+      font-size: 0.85rem;
+    }
+
+    .vertical-nav-wrap {
+      width: 100%;
+    }
+
+    .vertical-nav-wrap .vertical-nav-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      margin: 0 0 1rem;
+      padding-left: 0.25rem;
+    }
+
+    .vertical-nav {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .v-tab {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      width: 100%;
+      text-align: left;
+      padding: 1.35rem 0;
+      border: none;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--gray-600);
+      transition: color 0.25s ease;
+      min-height: 52px;
+    }
+
+    .v-tab:hover {
+      color: var(--navy);
+    }
+
+    .v-tab[aria-selected="true"] {
+      color: var(--navy);
+    }
+
+    .v-tab-rail {
+      position: relative;
+      width: 2px;
+      min-height: 3rem;
+      flex-shrink: 0;
+      margin-top: 0.35rem;
+      background: var(--gray-100);
+      border-radius: 1px;
+    }
+
+    .v-tab-rail-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 0;
+      background: var(--navy);
+      border-radius: 1px;
+      transition: height 0.35s ease;
+    }
+
+    .v-tab[aria-selected="true"] .v-tab-rail-fill {
+      height: 100%;
+    }
+
+    .v-tab-id {
+      font-size: 0.65rem;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.45;
+      margin-top: 0.4rem;
+      min-width: 1.5rem;
+    }
+
+    .v-tab-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .v-tab-title {
+      display: block;
+      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .v-tab-desc {
+      display: none;
+      margin: 0.5rem 0 0;
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--gray-600);
+    }
+
+    .v-tab[aria-selected="true"] .v-tab-desc {
+      display: block;
+    }
+
+    /* Section preview cards (carousel-inspired: thumbnail + card, vertical strip) */
+    .vertical-nav.section-preview-nav {
+      border-top: none;
+      gap: 0.75rem;
+      max-height: min(72vh, 620px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 0.35rem;
+      scrollbar-width: thin;
+    }
+
+    .v-tab.v-tab-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      border-bottom: 2px solid #cbd5e1;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, border-color 0.2s ease;
+    }
+
+    .v-tab.v-tab-card:hover {
+      box-shadow: 0 8px 28px rgba(30, 58, 95, 0.12);
+      border-color: rgba(26, 107, 138, 0.65);
+    }
+
+    .v-tab.v-tab-card[aria-selected="true"] {
+      border-color: var(--teal);
+      box-shadow: 0 4px 20px rgba(26, 107, 138, 0.18);
+    }
+
+    .v-tab-card-thumb {
+      position: relative;
+      width: 100%;
+      padding-bottom: 52%;
+      background: var(--gray-100);
+      overflow: hidden;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    .v-tab-card-thumb img,
+    .v-tab-card-thumb svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .v-tab.v-tab-card:hover .v-tab-card-thumb img,
+    .v-tab.v-tab-card:hover .v-tab-card-thumb svg {
+      transform: scale(1.06);
+    }
+
+    .v-tab-card-body {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0.45rem;
+      padding: 0.45rem 0.55rem 0.65rem;
+      width: 100%;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .v-tab.v-tab-card .v-tab-rail {
+      align-self: stretch;
+      margin-top: 0;
+      min-height: 2.5rem;
+    }
+
+    .v-tab.v-tab-card .v-tab-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .v-tab.v-tab-card .v-tab-desc {
+      display: block;
+      font-size: 0.72rem;
+      margin-top: 0.2rem;
+      line-height: 1.35;
+      color: var(--gray-600);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .v-tab.v-tab-card:hover .v-tab-card-thumb img {
+        transform: none;
+      }
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    main.main--about-full {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .about-slide-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 4.5rem);
+      background: var(--gray-50);
+    }
+
+    .slide-chrome {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      box-shadow: 0 2px 12px rgba(30, 58, 95, 0.06);
+    }
+
+    .slide-chrome-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.65rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .slide-chrome-brand {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+
+    .slide-source-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .slide-source-tabs button[role="tab"] {
+      appearance: none;
+      border: none;
+      border-right: 1px solid rgba(148, 163, 184, 0.35);
+      background: transparent;
+      color: var(--gray-600);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.5rem 0.9rem;
+      min-height: 40px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .slide-source-tabs button[role="tab"]:last-child {
+      border-right: none;
+    }
+
+    .slide-source-tabs button[role="tab"]:hover {
+      background: var(--gray-100);
+      color: var(--navy);
+    }
+
+    .slide-source-tabs button[role="tab"][aria-selected="true"] {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .slide-page-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-left: auto;
+      border: 1px solid var(--gray-100);
+      border-radius: 10px;
+      padding: 0.2rem 0.35rem;
+      background: var(--gray-50);
+    }
+
+    .slide-arrow {
+      appearance: none;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--navy);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    .slide-arrow:hover:not(:disabled) {
+      background: var(--gray-100);
+    }
+
+    .slide-arrow:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .slide-status {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      min-width: 8rem;
+      text-align: center;
+      padding: 0 0.35rem;
+    }
+
+    .slide-stage-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding: 0.75rem 1rem 1.5rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .about-view .embed-wrap {
+      flex: 1;
+      min-height: min(78vh, calc(100vh - 8.5rem));
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .about-view .embed-wrap iframe {
+      flex: 1;
+      min-height: min(78vh, calc(100vh - 8.5rem));
+      width: 100%;
+    }
+
+    .about-view .pptx-empty {
+      min-height: min(50vh, 400px);
+    }
+
+    .slide-panel-hint {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin: 0 0 0.65rem;
+    }
+
+    @media (max-width: 720px) {
+      .slide-page-bar {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .panel {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--gray-100);
+    }
+
+    .panel h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.25rem;
+      color: var(--navy);
+    }
+
+    .panel p.lead {
+      margin: 0 0 1rem;
+      color: var(--gray-600);
+      font-size: 1.02rem;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: min(360px, 55vh);
+      margin-top: 1rem;
+    }
+
+    .chart-legend-note {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-top: 0.75rem;
+    }
+
+    .task-section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    .task-section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .task-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .task-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 1rem;
+    }
+
+    .task-list li:last-child {
+      border-bottom: none;
+    }
+
+    .task-list input[type="checkbox"] {
+      width: 1.35rem;
+      height: 1.35rem;
+      margin-top: 0.15rem;
+      accent-color: var(--teal);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .task-list label {
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .task-list input:checked + label {
+      text-decoration: line-through;
+      color: var(--gray-600);
+    }
+
+    .task-list input:checked + label .task-chevron {
+      opacity: 0.4;
+    }
+
+    .task-label--cognitive {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+    }
+
+    .task-label-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .task-chevron {
+      flex-shrink: 0;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--teal);
+      line-height: 1;
+      opacity: 0.9;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .task-list-item--cognitive:hover .task-chevron {
+      transform: translateX(2px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .task-list-item--cognitive:hover .task-chevron {
+        transform: none;
+      }
+    }
+
+    .badge-ai {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--teal-dark);
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      margin-left: 0.35rem;
+      vertical-align: middle;
+    }
+
+    fieldset {
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      margin: 0 0 1.25rem;
+    }
+
+    fieldset legend {
+      font-weight: 600;
+      color: var(--navy);
+      padding: 0 0.35rem;
+    }
+
+    .q-block {
+      margin-bottom: 1.1rem;
+    }
+
+    .q-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .q-block label.q {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.45rem;
+    }
+
+    .q-block .hint {
+      font-size: 0.88rem;
+      color: var(--gray-600);
+      margin-top: 0.25rem;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .options label.opt {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 400;
+      cursor: pointer;
+      min-height: 44px;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.55rem 0.65rem;
+      border: 2px solid var(--gray-100);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    textarea {
+      max-width: 100%;
+      min-height: 80px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      min-height: 48px;
+      padding: 0 1.25rem;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: var(--teal);
+      color: var(--white);
+      transition: background 0.15s, transform 0.05s;
+    }
+
+    .btn:hover {
+      background: var(--teal-dark);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: var(--gray-100);
+      color: var(--navy);
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .about-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+    }
+
+    .team-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .team-list li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .team-list li:last-child {
+      border-bottom: none;
+    }
+
+    .embed-wrap {
+      border: 2px solid var(--gray-100);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--gray-800);
+      min-height: 420px;
+    }
+
+    .embed-wrap iframe {
+      display: block;
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+    }
+
+    .pptx-empty {
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: #e2e8f0;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pptx-empty p {
+      margin: 0;
+      max-width: 36rem;
+    }
+
+    .pptx-empty code {
+      font-size: 0.88em;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    .embed-help-extra {
+      margin-top: 0.85rem;
+      max-width: 36rem;
+      color: #e2e8f0;
+    }
+
+    .embed-fallback {
+      margin-top: 1rem;
+    }
+
+    .embed-fallback a {
+      color: #7dd3fc;
+      text-decoration: underline;
+    }
+
+    .embed-fallback a:hover {
+      color: #bae6fd;
+    }
+
+    .embed-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .embed-tabs button {
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      border: 2px solid var(--gray-100);
+      background: var(--white);
+      cursor: pointer;
+      min-height: 40px;
+    }
+
+    .embed-tabs button[aria-selected="true"] {
+      border-color: var(--teal);
+      background: rgba(26, 107, 138, 0.08);
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .local-pdf-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: center;
+    }
+
+    .local-pdf-file {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .local-pdf-label {
+      margin: 0;
+    }
+
+    .local-pptx-actions {
+      margin: 0.75rem 0 1rem;
+    }
+
+    .embed-wrap-local-pptx iframe {
+      min-height: 320px;
+    }
+
+    .callout {
+      font-size: 0.92rem;
+      color: var(--gray-600);
+      background: var(--gray-100);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--teal);
+      margin-top: 1rem;
+    }
+
+    .callout code {
+      font-size: 0.85em;
+      background: var(--white);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: var(--navy-deep);
+      color: var(--white);
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      box-shadow: var(--shadow);
+      z-index: 100;
+      transition: transform 0.25s ease;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .toast {
+        transition: none;
+      }
+      .v-tab-rail-fill,
+      .nav-tab-rail-fill {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" id="brand-home" aria-label="AtaxAI home">
+        <svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true">
+          <ellipse cx="24" cy="24" rx="22" ry="22" fill="#f1f5f9" />
+          <path
+            fill="#1e3a5f"
+            d="M14 32c0-8 4-14 12-16 2-6 8-10 14-10v28c-6 0-12-4-14-10-4 1-8 4-12 8z"
+          />
+          <path fill="#1e3a5f" d="M28 8c6 0 10 4 12 10-4-2-8-3-12-3v-7z" opacity="0.85" />
+          <g fill="none" stroke="#fff" stroke-width="1.2">
+            <circle cx="26" cy="18" r="2.5" fill="#fff" />
+            <path d="M26 20.5v4M22 22h8M24 26l-3 3M28 26l3 3M24 30v3" />
+          </g>
+        </svg>
+        AtaxAI
+      </a>
+      <nav class="header-main-nav nav-inline" aria-label="Main">
+        <button type="button" class="nav-tab nav-tab-inline" data-view="home" aria-selected="true">
+          <span class="nav-tab-rail" aria-hidden="true"><span class="nav-tab-rail-fill"></span></span>
+          <span class="nav-tab-id">/01</span>
+          <span class="nav-tab-title">Home</span>
+        </button>
+        <button type="button" class="nav-tab nav-tab-inline" data-view="progress" aria-selected="false">
+          <span class="nav-tab-rail" aria-hidden="true"><span class="nav-tab-rail-fill"></span></span>
+          <span class="nav-tab-id">/02</span>
+          <span class="nav-tab-title">Progress</span>
+        </button>
+        <button type="button" class="nav-tab nav-tab-inline" data-view="tasks" aria-selected="false">
+          <span class="nav-tab-rail" aria-hidden="true"><span class="nav-tab-rail-fill"></span></span>
+          <span class="nav-tab-id">/03</span>
+          <span class="nav-tab-title">Tasks</span>
+        </button>
+        <button type="button" class="nav-tab nav-tab-inline" data-view="assessment" aria-selected="false">
+          <span class="nav-tab-rail" aria-hidden="true"><span class="nav-tab-rail-fill"></span></span>
+          <span class="nav-tab-id">/04</span>
+          <span class="nav-tab-title">Self-assessment</span>
+        </button>
+        <button type="button" class="nav-tab nav-tab-inline" data-view="about" aria-selected="false">
+          <span class="nav-tab-rail" aria-hidden="true"><span class="nav-tab-rail-fill"></span></span>
+          <span class="nav-tab-id">/05</span>
+          <span class="nav-tab-title">Presentation</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Home -->
+    <section id="view-home" class="view" aria-labelledby="home-heading">
+      <div class="intro-panel">
+        <div class="intro-grid">
+          <div class="user-card">
+            <p class="user-card-kicker">Your session</p>
+            <h2 id="home-heading" class="user-card-welcome">
+              Welcome back, <span class="user-name">Eepee Sicks</span>
+            </h2>
+            <p class="user-card-tagline">Ready to grow today?</p>
+            <div class="user-card-portrait" role="img" aria-label="Profile photo (placeholder)">
+              Image
+            </div>
+            <p class="lead" style="margin-top: 1.75rem; margin-bottom: 0">
+              This demo shows how <strong>AtaxAI</strong> could combine imaging insights and your check-ins to suggest
+              daily activities. Nothing here connects to a real backend &mdash; it is for presentation only.
+            </p>
+          </div>
+
+          <aside class="vertical-nav-wrap" aria-label="Go to section">
+            <p class="vertical-nav-label">Preview</p>
+            <nav class="vertical-nav section-preview-nav" aria-label="App sections">
+              <button type="button" class="nav-tab v-tab v-tab-card" data-view="progress" aria-selected="false">
+                <div class="v-tab-card-thumb">
+                  <svg viewBox="0 0 320 180" width="320" height="180" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="thumb-progress-bg" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stop-color="#e0f2fe" />
+                        <stop offset="1" stop-color="#f8fafc" />
+                      </linearGradient>
+                    </defs>
+                    <rect width="320" height="180" fill="url(#thumb-progress-bg)" />
+                    <rect x="24" y="20" width="272" height="140" rx="10" fill="#ffffff" stroke="#cbd5e1" />
+                    <polyline
+                      points="44,126 78,108 112,114 146,92 180,84 214,76 248,62 276,56"
+                      fill="none"
+                      stroke="#1a6b8a"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <polyline
+                      points="44,138 78,134 112,128 146,120 180,108 214,112 248,102 276,96"
+                      fill="none"
+                      stroke="#0ea5e9"
+                      stroke-width="4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <text x="20" y="34" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#1e3a5f" letter-spacing="0.01em">
+                      Progress
+                    </text>
+                  </svg>
+                </div>
+                <div class="v-tab-card-body">
+                  <span class="v-tab-rail" aria-hidden="true"><span class="v-tab-rail-fill"></span></span>
+                  <span class="v-tab-id">/02</span>
+                  <span class="v-tab-body">
+                    <span class="v-tab-title">Progress</span>
+                    <span class="v-tab-desc">Charts and scores over time.</span>
+                  </span>
+                </div>
+              </button>
+              <button type="button" class="nav-tab v-tab v-tab-card" data-view="tasks" aria-selected="false">
+                <div class="v-tab-card-thumb">
+                  <svg viewBox="0 0 320 180" width="320" height="180" aria-hidden="true">
+                    <rect width="320" height="180" fill="#f8fafc" />
+                    <rect x="28" y="24" width="264" height="132" rx="10" fill="#ffffff" stroke="#cbd5e1" />
+                    <rect x="44" y="46" width="14" height="14" rx="3" fill="#1a6b8a" />
+                    <rect x="44" y="76" width="14" height="14" rx="3" fill="#1a6b8a" />
+                    <rect x="44" y="106" width="14" height="14" rx="3" fill="#1a6b8a" />
+                    <rect x="70" y="47" width="188" height="12" rx="6" fill="#cbd5e1" />
+                    <rect x="70" y="77" width="178" height="12" rx="6" fill="#cbd5e1" />
+                    <rect x="70" y="107" width="168" height="12" rx="6" fill="#cbd5e1" />
+                    <text x="20" y="34" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#1e3a5f" letter-spacing="0.01em">
+                      Tasks
+                    </text>
+                  </svg>
+                </div>
+                <div class="v-tab-card-body">
+                  <span class="v-tab-rail" aria-hidden="true"><span class="v-tab-rail-fill"></span></span>
+                  <span class="v-tab-id">/03</span>
+                  <span class="v-tab-body">
+                    <span class="v-tab-title">Tasks</span>
+                    <span class="v-tab-desc">Daily cognitive and physical tasks.</span>
+                  </span>
+                </div>
+              </button>
+              <button type="button" class="nav-tab v-tab v-tab-card" data-view="assessment" aria-selected="false">
+                <div class="v-tab-card-thumb">
+                  <svg viewBox="0 0 320 180" width="320" height="180" aria-hidden="true">
+                    <rect width="320" height="180" fill="#f1f5f9" />
+                    <rect x="26" y="20" width="268" height="140" rx="10" fill="#ffffff" stroke="#cbd5e1" />
+                    <rect x="44" y="42" width="168" height="14" rx="7" fill="#1e3a5f" opacity="0.18" />
+                    <rect x="44" y="72" width="116" height="10" rx="5" fill="#cbd5e1" />
+                    <circle cx="52" cy="102" r="6" fill="#1a6b8a" />
+                    <rect x="66" y="97" width="100" height="10" rx="5" fill="#cbd5e1" />
+                    <circle cx="52" cy="126" r="6" fill="#0ea5e9" />
+                    <rect x="66" y="121" width="124" height="10" rx="5" fill="#cbd5e1" />
+                    <text x="20" y="34" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#1e3a5f" letter-spacing="0.01em">
+                      Self-assessment
+                    </text>
+                  </svg>
+                </div>
+                <div class="v-tab-card-body">
+                  <span class="v-tab-rail" aria-hidden="true"><span class="v-tab-rail-fill"></span></span>
+                  <span class="v-tab-id">/04</span>
+                  <span class="v-tab-body">
+                    <span class="v-tab-title">Self-assessment</span>
+                    <span class="v-tab-desc">Cognitive and movement questions.</span>
+                  </span>
+                </div>
+              </button>
+              <button type="button" class="nav-tab v-tab v-tab-card" data-view="about" aria-selected="false">
+                <div class="v-tab-card-thumb">
+                  <svg viewBox="0 0 320 180" width="320" height="180" aria-hidden="true">
+                    <rect width="320" height="180" fill="#f1f5f9" />
+                    <rect x="38" y="20" width="244" height="128" rx="8" fill="#ffffff" stroke="#cbd5e1" />
+                    <rect x="54" y="36" width="212" height="10" rx="5" fill="#1e3a5f" opacity="0.18" />
+                    <rect x="54" y="58" width="160" height="8" rx="4" fill="#cbd5e1" />
+                    <rect x="54" y="74" width="136" height="8" rx="4" fill="#cbd5e1" />
+                    <circle cx="230" cy="90" r="26" fill="#1a6b8a" opacity="0.9" />
+                    <rect x="132" y="154" width="56" height="6" rx="3" fill="#94a3b8" />
+                    <text x="20" y="34" font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#1e3a5f" letter-spacing="0.01em">
+                      Presentation
+                    </text>
+                  </svg>
+                </div>
+                <div class="v-tab-card-body">
+                  <span class="v-tab-rail" aria-hidden="true"><span class="v-tab-rail-fill"></span></span>
+                  <span class="v-tab-id">/05</span>
+                  <span class="v-tab-body">
+                    <span class="v-tab-title">Presentation</span>
+                    <span class="v-tab-desc">Embedded slides and formats.</span>
+                  </span>
+                </div>
+              </button>
+            </nav>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress -->
+    <section id="view-progress" class="view" hidden aria-labelledby="progress-heading">
+      <div class="panel">
+        <h2 id="progress-heading">Progress over time</h2>
+        <p class="lead">
+          Example data for one patient: cognitive score (puzzles and memory activities) and physical score (movement
+          tasks), inspired by regular self-assessments &mdash; not real measurements.
+        </p>
+        <div class="chart-wrap">
+          <canvas id="progressChart" aria-label="Line chart of cognitive and physical task intensity over time"></canvas>
+        </div>
+        <p class="chart-legend-note">
+          Higher scores mean better performance on that day&rsquo;s activities. The AI would use trends like these to
+          adjust suggested tasks.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tasks -->
+    <section id="view-tasks" class="view" hidden aria-labelledby="tasks-heading">
+      <div class="panel">
+        <h2 id="tasks-heading">Daily Tasks</h2>
+        <p class="lead">
+          Check off what you complete today. Lists are saved in this browser only (demo). Cognitive items show a hint arrow like an app shortcut.
+        </p>
+
+        <h3 class="task-section-title">Cognitive</h3>
+        <ul class="task-list" id="cognitive-tasks"></ul>
+
+        <h3 class="task-section-title">Physical</h3>
+        <ul class="task-list" id="physical-tasks"></ul>
+      </div>
+    </section>
+
+    <!-- Assessment -->
+    <section id="view-assessment" class="view" hidden aria-labelledby="assessment-heading">
+      <div class="panel">
+        <h2 id="assessment-heading">Self-assessment</h2>
+        <p class="lead">
+          Short questions a young person can answer with a grown-up. This form does not send data anywhere. Answers are
+          only for discussion during your presentation.
+        </p>
+
+        <form id="assessment-form" novalidate>
+          <fieldset>
+            <legend>Thinking games</legend>
+            <div class="q-block">
+              <span class="q">What is 6 + 5?</span>
+              <div class="options">
+                <label class="opt"><input type="radio" name="q_math" value="10" /> 10</label>
+                <label class="opt"><input type="radio" name="q_math" value="11" /> 11</label>
+                <label class="opt"><input type="radio" name="q_math" value="12" /> 12</label>
+              </div>
+            </div>
+            <div class="q-block">
+              <span class="q">Which picture word is different from the others: apple, banana, chair?</span>
+              <select name="q_odd" aria-label="Pick the different word">
+                <option value="">Choose&hellip;</option>
+                <option value="apple">apple</option>
+                <option value="banana">banana</option>
+                <option value="chair">chair</option>
+              </select>
+              <p class="hint">Two are fruits; one is not.</p>
+            </div>
+            <div class="q-block">
+              <label class="q" for="pattern">Finish the pattern: 2, 4, 6, __</label>
+              <input type="number" id="pattern" name="pattern" min="0" max="99" placeholder="Next number" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Body and movement</legend>
+            <div class="q-block">
+              <span class="q">Did you try standing on one foot today (with support nearby if needed)?</span>
+              <div class="options">
+                <label class="opt"><input type="radio" name="q_stand" value="yes" /> Yes</label>
+                <label class="opt"><input type="radio" name="q_stand" value="no" /> Not today</label>
+              </div>
+            </div>
+            <div class="q-block">
+              <label class="q" for="walk_time">About how many seconds could you walk heel-to-toe in a straight line? (guess is ok)</label>
+              <input type="number" id="walk_time" name="walk_time" min="0" max="600" placeholder="Seconds" />
+            </div>
+            <div class="q-block">
+              <span class="q">How do your legs feel today?</span>
+              <div class="options">
+                <label class="opt"><input type="radio" name="q_legs" value="strong" /> Strong</label>
+                <label class="opt"><input type="radio" name="q_legs" value="ok" /> Okay</label>
+                <label class="opt"><input type="radio" name="q_legs" value="tired" /> Tired or wobbly</label>
+              </div>
+            </div>
+            <div class="q-block">
+              <label class="q" for="notes">Anything you want your care team to know? (optional)</label>
+              <textarea id="notes" name="notes" rows="3" placeholder="Optional notes"></textarea>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn">Save on this device (demo)</button>
+          <button type="button" class="btn btn-secondary" id="clear-assessment" style="margin-left: 0.5rem">Clear answers</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- About: full-width presentation stage -->
+    <section id="view-about" class="view about-view" hidden aria-label="Presentation">
+      <div class="about-slide-shell">
+        <header class="slide-chrome">
+          <div class="slide-chrome-inner">
+            <span class="slide-chrome-brand">Slides</span>
+            <div class="slide-source-tabs" role="tablist" aria-label="Slide source">
+              <button type="button" role="tab" id="tab-pptx" aria-selected="true" aria-controls="panel-pptx">Hosted</button>
+              <button type="button" role="tab" id="tab-pdf" aria-selected="false" aria-controls="panel-pdf">PDF</button>
+              <button type="button" role="tab" id="tab-pptx-local" aria-selected="false" aria-controls="panel-pptx-local">File</button>
+            </div>
+            <div class="slide-page-bar">
+              <button type="button" class="slide-arrow" id="slide-prev" aria-label="Previous page or slide" disabled>‹</button>
+              <span class="slide-status" id="slide-status" role="status">Click the slide area, then use arrow keys</span>
+              <button type="button" class="slide-arrow" id="slide-next" aria-label="Next page or slide" disabled>›</button>
+            </div>
+          </div>
+        </header>
+        <div class="slide-stage-wrap">
+          <div id="panel-pptx" role="tabpanel" aria-labelledby="tab-pptx">
+            <div class="embed-wrap" id="pptx-embed-container">
+              <div id="pptx-empty" class="pptx-empty" hidden>
+                <p id="embed-help-default"><strong>No embed URL set.</strong> Set <code>PRESENTATION_EMBED_URL</code> or <code>GOOGLE_SLIDES_EMBED_URL</code> in the script.</p>
+                <p id="embed-help-sharepoint" class="embed-help-extra" hidden>
+                  <strong>SharePoint &ldquo;Copy link&rdquo; URLs fail in the viewer.</strong> Use <strong>Embed</strong> and paste the iframe <code>src</code> into <code>PRESENTATION_EMBED_URL</code>.
+                </p>
+                <ul style="text-align: left; max-width: 28rem; margin: 0.75rem auto 0; color: #cbd5e1; font-size: 0.9rem">
+                  <li><code>PRESENTATION_EMBED_URL</code> &mdash; SharePoint/OneDrive <strong>Embed</strong> iframe <code>src</code>.</li>
+                  <li><code>GOOGLE_SLIDES_EMBED_URL</code> &mdash; published Slides embed URL.</li>
+                  <li><code>PPTX_DIRECT_URL</code> &mdash; direct <code>.pptx</code> URL only (not a sharing page).</li>
+                </ul>
+                <p id="pptx-fallback-wrap" class="embed-fallback" hidden>
+                  <a id="pptx-fallback-link" href="#" target="_blank" rel="noopener noreferrer">Open slides in new tab</a>
+                </p>
+              </div>
+              <iframe title="Embedded presentation" id="pptx-iframe" src=""></iframe>
+            </div>
+          </div>
+          <div id="panel-pdf" role="tabpanel" aria-labelledby="tab-pdf" hidden>
+            <p class="slide-panel-hint">Use the arrows in the bar above to change pages (works for PDF).</p>
+            <div class="local-pdf-toolbar">
+              <label class="btn btn-secondary local-pdf-label" for="local-pdf-file">Choose PDF</label>
+              <input type="file" id="local-pdf-file" class="local-pdf-file" accept="application/pdf,.pdf" />
+              <button type="button" class="btn btn-secondary" id="reset-pdf-folder">Reset to folder PDF</button>
+            </div>
+            <div class="embed-wrap embed-wrap-pdf">
+              <iframe id="slides-pdf-iframe" title="Presentation PDF" src="1EP6%20Group%2035%20-%20Inv%202_test.pdf"></iframe>
+            </div>
+          </div>
+          <div id="panel-pptx-local" role="tabpanel" aria-labelledby="tab-pptx-local" hidden>
+            <p class="slide-panel-hint">
+              Same folder: <code id="local-pptx-filename-display">Presentation.pptx</code> (edit <code>LOCAL_PPTX_FILENAME</code> in the script if needed).
+            </p>
+            <div class="local-pptx-actions">
+              <a class="btn" id="open-local-pptx-link" href="Presentation.pptx" target="_blank" rel="noopener noreferrer">Open in PowerPoint</a>
+            </div>
+            <div class="embed-wrap embed-wrap-local-pptx">
+              <iframe id="local-pptx-office-iframe" title="Optional Office Online preview" src=""></iframe>
+            </div>
+            <p id="local-pptx-office-hint" class="slide-panel-hint"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /**
+       * Best for SharePoint/OneDrive: open the deck in the browser → … → Embed → copy the iframe src (often contains embed.aspx or officeapps.live.com).
+       * Do NOT use “Copy link” here — that URL is not a file address and the viewer will show “URL not found”.
+       */
+      /** Same folder as index.html — the file you open in PowerPoint for full animations. */
+      var LOCAL_PPTX_FILENAME = "Presentation.pptx";
+
+      /** SharePoint: … → Embed → iframe src (sign-in is normal). */
+      var PRESENTATION_EMBED_URL =
+        "https://mcmasteru365-my.sharepoint.com/personal/micalla_mcmaster_ca/_layouts/15/Doc.aspx?sourcedoc={20e38982-1e1f-449e-8b3a-217d2cba29c0}&action=embedview&wdAr=1.7777777777777777";
+
+      /** Google Slides: File → Share → Publish to web → copy the embed URL (starts with docs.google.com/.../embed). */
+      var GOOGLE_SLIDES_EMBED_URL = "";
+
+      /**
+       * Optional: only if you have a public direct link to the .pptx (URL contains the file path / .pptx).
+       * SharePoint “Copy link” / :p: links will not work — use PRESENTATION_EMBED_URL from Embed instead.
+       */
+      var PPTX_DIRECT_URL = "";
+
+      function trimUrl(u) {
+        return (u || "").trim();
+      }
+
+      /** SharePoint sharing pages and short OneDrive links are not valid for view.officeapps.live.com. */
+      function isIncompatibleWithOfficeViewer(url) {
+        var u = url.trim();
+        if (u.indexOf("/:p:/") !== -1) return true;
+        if (/^https?:\/\/1drv\.ms\//i.test(u)) return true;
+        return false;
+      }
+
+      var views = {
+        home: document.getElementById("view-home"),
+        progress: document.getElementById("view-progress"),
+        tasks: document.getElementById("view-tasks"),
+        assessment: document.getElementById("view-assessment"),
+        about: document.getElementById("view-about"),
+      };
+
+      var tabs = document.querySelectorAll(".nav-tab");
+      var brandHome = document.getElementById("brand-home");
+
+      function showView(name) {
+        Object.keys(views).forEach(function (key) {
+          var el = views[key];
+          if (!el) return;
+          var on = key === name;
+          el.hidden = !on;
+        });
+        tabs.forEach(function (t) {
+          var target = t.getAttribute("data-view");
+          var sel = target === name ? "true" : "false";
+          t.setAttribute("aria-selected", sel);
+        });
+        if (name === "progress" && !window._chartBuilt) {
+          window._chartBuilt = true;
+          buildChart();
+        }
+        var mainEl = document.getElementById("main");
+        if (mainEl) {
+          if (name === "about") mainEl.classList.add("main--about-full");
+          else mainEl.classList.remove("main--about-full");
+        }
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener("click", function () {
+          showView(t.getAttribute("data-view"));
+        });
+      });
+
+      brandHome.addEventListener("click", function (e) {
+        e.preventDefault();
+        showView("home");
+      });
+
+      function buildChart() {
+        var ctx = document.getElementById("progressChart");
+        if (!ctx || typeof Chart === "undefined") return;
+
+        var months = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"];
+        var cognitive = [62, 64, 63, 67, 68, 70, 71];
+        var physical = [54, 55, 53, 56, 58, 59, 60];
+
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: months,
+            datasets: [
+              {
+                label: "Cognitive task intensity",
+                data: cognitive,
+                borderColor: "#1a6b8a",
+                backgroundColor: "rgba(26, 107, 138, 0.12)",
+                tension: 0.25,
+                fill: true,
+              },
+              {
+                label: "Physical task intensity",
+                data: physical,
+                borderColor: "#0ea5e9",
+                backgroundColor: "rgba(14, 165, 233, 0.08)",
+                tension: 0.25,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "bottom" },
+            },
+            scales: {
+              y: {
+                min: 40,
+                max: 80,
+                title: { display: true, text: "Task intensity" },
+              },
+            },
+          },
+        });
+      }
+
+      var cognitiveTaskData = [
+        { id: "c1", text: "Memory match: flip pairs for 5 minutes" },
+        { id: "c2", text: "Word recall: name 10 items from a picture, then try again from memory" },
+        { id: "c3", text: "Counting story: follow a short story and answer how many times a word was said" },
+        { id: "c4", text: "Pattern repeat: clap or tap a rhythm, then copy it twice" },
+      ];
+
+      var physicalTaskData = [
+        { id: "p1", text: "Balance: stand near a wall, shift weight side to side (2 slow sets)" },
+        { id: "p2", text: "Arm circles: small forward and backward, shoulders relaxed" },
+        { id: "p3", text: "Seated marches: lift knees gently, 10 each leg" },
+        { id: "p4", text: "Heel raises: rise onto toes while holding support, 8 slow reps" },
+      ];
+
+      var TASK_KEY = "ataxai_tasks_v2";
+
+      function loadChecks() {
+        try {
+          return JSON.parse(localStorage.getItem(TASK_KEY) || "{}");
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function saveChecks(obj) {
+        localStorage.setItem(TASK_KEY, JSON.stringify(obj));
+      }
+
+      function renderTasks() {
+        var checks = loadChecks();
+        var cogUl = document.getElementById("cognitive-tasks");
+        var physUl = document.getElementById("physical-tasks");
+        if (!cogUl || !physUl) return;
+        cogUl.innerHTML = "";
+        physUl.innerHTML = "";
+
+        function rowPhysical(list, item, prefix) {
+          var key = prefix + item.id;
+          var li = document.createElement("li");
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.id = key;
+          cb.checked = !!checks[key];
+          var lab = document.createElement("label");
+          lab.htmlFor = key;
+          lab.textContent = item.text;
+          cb.addEventListener("change", function () {
+            checks[key] = cb.checked;
+            saveChecks(checks);
+          });
+          li.appendChild(cb);
+          li.appendChild(lab);
+          list.appendChild(li);
+        }
+
+        function rowCognitive(list, item, prefix) {
+          var key = prefix + item.id;
+          var li = document.createElement("li");
+          li.className = "task-list-item--cognitive";
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.id = key;
+          cb.checked = !!checks[key];
+          var lab = document.createElement("label");
+          lab.htmlFor = key;
+          lab.className = "task-label--cognitive";
+          var textSpan = document.createElement("span");
+          textSpan.className = "task-label-text";
+          textSpan.textContent = item.text;
+          var chev = document.createElement("span");
+          chev.className = "task-chevron";
+          chev.setAttribute("aria-hidden", "true");
+          chev.textContent = "\u2192";
+          lab.appendChild(textSpan);
+          lab.appendChild(chev);
+          cb.addEventListener("change", function () {
+            checks[key] = cb.checked;
+            saveChecks(checks);
+          });
+          li.appendChild(cb);
+          li.appendChild(lab);
+          list.appendChild(li);
+        }
+
+        cognitiveTaskData.forEach(function (item) {
+          rowCognitive(cogUl, item, "cog_");
+        });
+        physicalTaskData.forEach(function (item) {
+          rowPhysical(physUl, item, "phys_");
+        });
+      }
+
+      renderTasks();
+
+      var ASSESS_KEY = "ataxai_assessment_v1";
+
+      function loadAssessment() {
+        try {
+          return JSON.parse(sessionStorage.getItem(ASSESS_KEY) || "{}");
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function saveAssessment(data) {
+        sessionStorage.setItem(ASSESS_KEY, JSON.stringify(data));
+      }
+
+      var form = document.getElementById("assessment-form");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var fd = new FormData(form);
+        var data = {};
+        fd.forEach(function (v, k) {
+          data[k] = v;
+        });
+        saveAssessment(data);
+        toast("Saved on this device (demo only).");
+      });
+
+      document.getElementById("clear-assessment").addEventListener("click", function () {
+        form.reset();
+        sessionStorage.removeItem(ASSESS_KEY);
+        toast("Cleared.");
+      });
+
+      function toast(msg) {
+        var t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(t._tid);
+        t._tid = setTimeout(function () {
+          t.classList.remove("show");
+        }, 2800);
+      }
+
+      function hydrateForm() {
+        var data = loadAssessment();
+        if (!data || Object.keys(data).length === 0) return;
+        Object.keys(data).forEach(function (k) {
+          var el = form.elements.namedItem(k);
+          if (!el) return;
+          if (el.type === "radio") {
+            var r = form.querySelector('input[name="' + k + '"][value="' + data[k] + '"]');
+            if (r) r.checked = true;
+          } else if (el.type === "checkbox") {
+            el.checked = !!data[k];
+          } else {
+            el.value = data[k];
+          }
+        });
+      }
+
+      hydrateForm();
+
+      var tabPptxLocal = document.getElementById("tab-pptx-local");
+      var tabPdf = document.getElementById("tab-pdf");
+      var tabPptx = document.getElementById("tab-pptx");
+      var slidePrev = document.getElementById("slide-prev");
+      var slideNext = document.getElementById("slide-next");
+      var slideStatus = document.getElementById("slide-status");
+      var panelPptxLocal = document.getElementById("panel-pptx-local");
+      var panelPdf = document.getElementById("panel-pdf");
+      var panelPptx = document.getElementById("panel-pptx");
+      var pptxIframe = document.getElementById("pptx-iframe");
+      var pptxEmpty = document.getElementById("pptx-empty");
+      var localPptxOfficeIframe = document.getElementById("local-pptx-office-iframe");
+      var localPptxOfficeHint = document.getElementById("local-pptx-office-hint");
+
+      var DEFAULT_FOLDER_PDF = "1EP6%20Group%2035%20-%20Inv%202_test.pdf";
+      var slidesPdfIframe = document.getElementById("slides-pdf-iframe");
+      var localPdfFile = document.getElementById("local-pdf-file");
+      var resetPdfFolder = document.getElementById("reset-pdf-folder");
+      var pdfObjectUrl = null;
+      var pdfPageNum = 1;
+      var currentEmbedTab = "hosted";
+
+      function applyPdfPage() {
+        if (!slidesPdfIframe) return;
+        var src = slidesPdfIframe.src;
+        var base = src.indexOf("#") === -1 ? src : src.substring(0, src.indexOf("#"));
+        slidesPdfIframe.src = base + "#page=" + pdfPageNum;
+        updateSlideChrome();
+      }
+
+      function updateSlideChrome() {
+        if (!slidePrev || !slideNext || !slideStatus) return;
+        if (currentEmbedTab === "pdf") {
+          slidePrev.disabled = pdfPageNum <= 1;
+          slideNext.disabled = false;
+          slideStatus.textContent = "PDF · page " + pdfPageNum;
+        } else if (currentEmbedTab === "hosted") {
+          slidePrev.disabled = true;
+          slideNext.disabled = true;
+          slideStatus.textContent = "Click slide, then ← →";
+        } else {
+          slidePrev.disabled = true;
+          slideNext.disabled = true;
+          slideStatus.textContent = "Use PowerPoint for slides";
+        }
+      }
+
+      function setEmbedTab(which) {
+        currentEmbedTab = which;
+        var isLocal = which === "local";
+        var isPdf = which === "pdf";
+        var isHosted = which === "hosted";
+        if (tabPptxLocal) tabPptxLocal.setAttribute("aria-selected", isLocal ? "true" : "false");
+        if (tabPdf) tabPdf.setAttribute("aria-selected", isPdf ? "true" : "false");
+        if (tabPptx) tabPptx.setAttribute("aria-selected", isHosted ? "true" : "false");
+        if (panelPptxLocal) panelPptxLocal.hidden = !isLocal;
+        if (panelPdf) panelPdf.hidden = !isPdf;
+        if (panelPptx) panelPptx.hidden = !isHosted;
+        if (isHosted) setupPptxIframe();
+        if (isLocal) tryLocalPptxOfficeViewer();
+        updateSlideChrome();
+      }
+
+      function tryLocalPptxOfficeViewer() {
+        if (!localPptxOfficeIframe) return;
+        var fileUrl;
+        try {
+          fileUrl = new URL(LOCAL_PPTX_FILENAME, window.location.href).href;
+        } catch (e) {
+          return;
+        }
+        if (fileUrl.indexOf("file:") === 0) {
+          localPptxOfficeIframe.removeAttribute("src");
+          if (localPptxOfficeHint) {
+            localPptxOfficeHint.textContent =
+              "Opened as file:// — use “Open in PowerPoint” above. Optional viewer needs http://localhost (Live Server).";
+          }
+          return;
+        }
+        localPptxOfficeIframe.src =
+          "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(fileUrl);
+        if (localPptxOfficeHint) {
+          localPptxOfficeHint.textContent =
+            "If this stays blank, Microsoft is blocking the preview — that is normal. Use “Open in PowerPoint” to present with animations.";
+        }
+      }
+
+      var openLocalPptxLink = document.getElementById("open-local-pptx-link");
+      var localPptxFilenameDisplay = document.getElementById("local-pptx-filename-display");
+      if (openLocalPptxLink) {
+        openLocalPptxLink.href = encodeURI(LOCAL_PPTX_FILENAME);
+      }
+      if (localPptxFilenameDisplay) {
+        localPptxFilenameDisplay.textContent = LOCAL_PPTX_FILENAME;
+      }
+
+      if (tabPptxLocal) {
+        tabPptxLocal.addEventListener("click", function () {
+          setEmbedTab("local");
+        });
+      }
+      if (tabPdf) {
+        tabPdf.addEventListener("click", function () {
+          setEmbedTab("pdf");
+        });
+      }
+      if (tabPptx) {
+        tabPptx.addEventListener("click", function () {
+          setEmbedTab("hosted");
+        });
+      }
+
+      if (slidePrev && slideNext) {
+        slidePrev.addEventListener("click", function () {
+          if (currentEmbedTab !== "pdf") return;
+          pdfPageNum = Math.max(1, pdfPageNum - 1);
+          applyPdfPage();
+        });
+        slideNext.addEventListener("click", function () {
+          if (currentEmbedTab !== "pdf") return;
+          pdfPageNum += 1;
+          applyPdfPage();
+        });
+      }
+
+      document.addEventListener("keydown", function (e) {
+        var about = document.getElementById("view-about");
+        if (!about || about.hidden || currentEmbedTab !== "pdf") return;
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          pdfPageNum = Math.max(1, pdfPageNum - 1);
+          applyPdfPage();
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          pdfPageNum += 1;
+          applyPdfPage();
+        }
+      });
+
+      function revokePdfBlob() {
+        if (pdfObjectUrl) {
+          URL.revokeObjectURL(pdfObjectUrl);
+          pdfObjectUrl = null;
+        }
+      }
+
+      if (localPdfFile && slidesPdfIframe) {
+        localPdfFile.addEventListener("change", function () {
+          var f = localPdfFile.files && localPdfFile.files[0];
+          if (!f) return;
+          revokePdfBlob();
+          pdfPageNum = 1;
+          pdfObjectUrl = URL.createObjectURL(f);
+          slidesPdfIframe.src = pdfObjectUrl;
+          applyPdfPage();
+          toast("Showing PDF from your computer.");
+        });
+      }
+
+      if (resetPdfFolder && slidesPdfIframe) {
+        resetPdfFolder.addEventListener("click", function () {
+          revokePdfBlob();
+          if (localPdfFile) localPdfFile.value = "";
+          pdfPageNum = 1;
+          slidesPdfIframe.src = DEFAULT_FOLDER_PDF;
+          applyPdfPage();
+          toast("Using PDF from project folder.");
+        });
+      }
+
+      function setupPptxIframe() {
+        var embed = trimUrl(PRESENTATION_EMBED_URL);
+        var g = trimUrl(GOOGLE_SLIDES_EMBED_URL);
+        var direct = trimUrl(PPTX_DIRECT_URL);
+        var def = document.getElementById("embed-help-default");
+        var spMsg = document.getElementById("embed-help-sharepoint");
+        var fbWrap = document.getElementById("pptx-fallback-wrap");
+        var fbLink = document.getElementById("pptx-fallback-link");
+
+        function showIframe(src) {
+          pptxEmpty.hidden = true;
+          pptxIframe.hidden = false;
+          pptxIframe.src = src;
+          if (def) def.hidden = true;
+          if (spMsg) spMsg.hidden = true;
+          // SharePoint/tenant policies may block iframe embedding for some viewers.
+          // Keep a direct-open fallback visible whenever we have a hosted source URL.
+          if (fbWrap && fbLink) {
+            fbWrap.hidden = false;
+            fbLink.href = src;
+          }
+        }
+
+        function showEmpty(showShareHelp, fallbackUrl) {
+          pptxEmpty.hidden = false;
+          pptxIframe.hidden = true;
+          pptxIframe.removeAttribute("src");
+          if (def) def.hidden = showShareHelp;
+          if (spMsg) spMsg.hidden = !showShareHelp;
+          if (fbWrap && fbLink) {
+            if (fallbackUrl) {
+              fbWrap.hidden = false;
+              fbLink.href = fallbackUrl;
+            } else {
+              fbWrap.hidden = true;
+              fbLink.removeAttribute("href");
+            }
+          }
+        }
+
+        if (embed) {
+          showIframe(embed);
+          return;
+        }
+        if (g) {
+          showIframe(g);
+          return;
+        }
+        if (direct) {
+          if (isIncompatibleWithOfficeViewer(direct)) {
+            showEmpty(true, direct);
+            return;
+          }
+          showIframe(
+            "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(direct)
+          );
+          return;
+        }
+        showEmpty(false, null);
+      }
+
+      setEmbedTab("hosted");
+      showView("home");
+    })();
+  </script>
+</body>
+</html>

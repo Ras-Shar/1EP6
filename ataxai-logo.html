@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AtaxAI — Logo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;650;750&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --navy: #0b1b34;
+        --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --border: rgba(15, 23, 42, 0.10);
+        --muted: rgba(11, 27, 52, 0.62);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font);
+        color: var(--navy);
+        background: #ffffff;
+        padding: 44px 28px 88px;
+      }
+
+      .sheet {
+        width: min(1300px, 96vw);
+        margin: 0 auto;
+        display: grid;
+        gap: 34px;
+      }
+
+      .variant {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: clamp(22px, 3.5vw, 40px);
+      }
+
+      .variant-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+
+      .variant-title {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 650;
+      }
+
+      .variant-note {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .logo {
+        width: min(1200px, 92vw);
+        height: auto;
+        display: block;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="sheet" aria-label="AtaxAI logo options">
+      <h1 class="sr-only">AtaxAI logo options</h1>
+
+      <!-- Variant 01 -->
+      <section class="variant" aria-label="Variant 01">
+        <div class="variant-head">
+          <p class="variant-title">Variant 01</p>
+          <p class="variant-note">Side-view brain silhouette + dense neural mesh (sleek navy/teal)</p>
+        </div>
+
+        <svg class="logo" viewBox="0 0 1200 420" role="img" aria-labelledby="v1t v1d">
+          <title id="v1t">AtaxAI logo variant 01</title>
+          <desc id="v1d">Neural network web shaped like a brain, and the word AtaxAI with a smooth ring around AI.</desc>
+
+          <defs>
+            <linearGradient id="v1Stroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#1a6b8a" />
+              <stop offset="1" stop-color="#1e3a5f" />
+            </linearGradient>
+            <filter id="v1Shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="rgba(30, 58, 95, 0.14)" />
+            </filter>
+
+            <!-- Side-view brain silhouette (used for clipping) -->
+            <clipPath id="v1BrainClip">
+              <!-- tuned silhouette: sharper stem -->
+              <path
+                d="M266 44
+                   C200 30 140 56 116 112
+                   C82 132 64 162 64 198
+                   C64 262 114 304 188 304
+                   C208 334 246 356 294 356
+                   C360 356 412 316 428 258
+                   C468 238 494 202 494 156
+                   C494 84 438 38 360 38
+                   C332 34 302 36 266 44Z
+                   M316 294
+                   C336 312 352 336 354 356
+                   C330 348 314 336 300 320
+                   C292 310 292 298 316 294Z
+                   M388 304
+                   C406 316 412 336 404 356
+                   C424 344 438 326 444 304
+                   C430 298 412 296 388 304Z"
+              />
+            </clipPath>
+          </defs>
+
+          <!-- Icon: side-view brain silhouette with dense neural mesh (no outer outline) -->
+          <g transform="translate(78 68)">
+            <!-- soft shadow comes from the silhouette only -->
+            <path
+              d="M266 44
+                 C200 30 140 56 116 112
+                 C82 132 64 162 64 198
+                 C64 262 114 304 188 304
+                 C208 334 246 356 294 356
+                 C360 356 412 316 428 258
+                 C468 238 494 202 494 156
+                 C494 84 438 38 360 38
+                 C332 34 302 36 266 44Z
+                 M316 294
+                 C336 312 352 336 354 356
+                 C330 348 314 336 300 320
+                 C292 310 292 298 316 294Z
+                 M388 304
+                 C406 316 412 336 404 356
+                 C424 344 438 326 444 304
+                 C430 298 412 296 388 304Z"
+              fill="rgba(241, 245, 249, 0.65)"
+              filter="url(#v1Shadow)"
+            />
+
+            <!-- everything else is clipped precisely to the brain silhouette -->
+            <g clip-path="url(#v1BrainClip)">
+              <rect x="38" y="28" width="520" height="380" fill="rgba(255, 255, 255, 0)" />
+
+              <!-- Dense neural edges (sleek) -->
+              <g fill="none" stroke-linecap="round">
+                <!-- Slightly bolder edge mesh to “outline” the brain -->
+                <g stroke="rgba(26, 107, 138, 0.55)" stroke-width="3.1">
+                  <path d="M96 134 L140 94 L220 90 L304 92 L376 132 L426 170 L452 214 L420 258 L372 296 L322 322 L268 340 L214 330 L174 304 L142 264 L116 220 L96 178 Z" />
+                  <path d="M300 334 L318 356" />
+                  <path d="M388 346 L410 324" />
+                </g>
+                <g stroke="rgba(30, 58, 95, 0.38)" stroke-width="2.4">
+                  <path d="M88 150 L140 112 L206 134 L268 104 L322 134 L374 176 L336 220 L268 246 L202 218 L150 246 L108 210 Z" />
+                  <path d="M140 112 L126 162 L150 246 L202 218 L206 134 L268 246 L336 220 L322 134 L268 104" />
+                  <path d="M108 210 L150 246 L196 286 L254 304 L268 246 L318 282 L336 220 L374 176" opacity="0.85" />
+                  <path d="M126 162 L206 134 L322 134" opacity="0.65" />
+                  <path d="M206 134 L268 246 L374 176" opacity="0.55" />
+                </g>
+                <g stroke="rgba(26, 107, 138, 0.30)" stroke-width="2.1">
+                  <path d="M104 132 L156 98 L232 110 L292 86 L356 132" />
+                  <path d="M92 184 L152 166 L224 174 L298 160 L360 192" />
+                  <path d="M118 236 L176 220 L242 228 L312 218 L350 244" />
+                  <path d="M156 98 L152 166 L176 220" opacity="0.75" />
+                  <path d="M232 110 L224 174 L242 228" opacity="0.75" />
+                  <path d="M292 86 L298 160 L312 218" opacity="0.75" />
+                </g>
+
+                <!-- Extra triangulation hints (reference-style lattice) -->
+                <g stroke="rgba(26, 107, 138, 0.26)" stroke-width="1.9">
+                  <path d="M96 178 L140 112 L206 134 L150 246 L96 178" />
+                  <path d="M140 112 L232 110 L206 134 L140 112" />
+                  <path d="M232 110 L292 86 L322 134 L232 110" />
+                  <path d="M322 134 L374 176 L336 220 L322 134" />
+                  <path d="M336 220 L268 246 L202 218 L336 220" />
+                  <path d="M268 246 L318 282 L374 176 L268 246" opacity="0.7" />
+                  <path d="M150 246 L196 286 L254 304 L150 246" opacity="0.7" />
+                  <path d="M202 218 L196 286 L150 246" opacity="0.6" />
+                  <path d="M224 174 L298 160 L268 246" opacity="0.6" />
+                </g>
+              </g>
+
+              <!-- Nodes (small, non-glowy) -->
+              <g fill="#ffffff" stroke="rgba(30, 58, 95, 0.55)" stroke-width="3">
+                <circle cx="88" cy="150" r="6.6" />
+                <circle cx="104" cy="132" r="6.6" />
+                <circle cx="92" cy="184" r="6.6" />
+                <circle cx="108" cy="210" r="6.6" />
+                <circle cx="118" cy="236" r="6.6" />
+
+                <circle cx="140" cy="112" r="6.6" />
+                <circle cx="126" cy="162" r="6.6" />
+                <circle cx="150" cy="246" r="6.6" />
+                <circle cx="156" cy="98" r="6.6" />
+                <circle cx="152" cy="166" r="6.6" />
+                <circle cx="176" cy="220" r="6.6" />
+
+                <circle cx="206" cy="134" r="6.6" />
+                <circle cx="202" cy="218" r="6.6" />
+                <circle cx="196" cy="286" r="6.6" />
+                <circle cx="232" cy="110" r="6.6" />
+                <circle cx="224" cy="174" r="6.6" />
+                <circle cx="242" cy="228" r="6.6" />
+
+                <circle cx="268" cy="104" r="6.6" />
+                <circle cx="268" cy="246" r="6.6" />
+                <circle cx="254" cy="304" r="6.6" />
+                <circle cx="292" cy="86" r="6.6" />
+                <circle cx="298" cy="160" r="6.6" />
+                <circle cx="312" cy="218" r="6.6" />
+                <circle cx="318" cy="282" r="6.6" />
+
+                <circle cx="322" cy="134" r="6.6" />
+                <circle cx="336" cy="220" r="6.6" />
+                <circle cx="350" cy="244" r="6.6" />
+                <circle cx="356" cy="132" r="6.6" />
+                <circle cx="360" cy="192" r="6.6" />
+                <circle cx="374" cy="176" r="6.6" />
+              </g>
+
+            </g>
+          </g>
+
+          <!-- Wordmark (no space): AtaxAI -->
+          <g transform="translate(540 0)">
+            <text
+              x="0"
+              y="250"
+              font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+              font-size="150"
+              font-weight="650"
+              letter-spacing="-3.2"
+              fill="#0b1b34"
+            >
+              Atax
+            </text>
+
+            <g transform="translate(310 0)">
+              <!-- New arcs around AI: small top arc + larger bottom arc -->
+              <g fill="none" stroke="url(#v1Stroke)" stroke-linecap="round">
+                <path d="M66 126 Q126 84 186 126" stroke-width="9" opacity="0.9" />
+                <path d="M54 276 Q126 330 202 276" stroke-width="11" opacity="0.95" />
+              </g>
+
+              <text
+                x="44"
+                y="250"
+                font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+                font-size="150"
+                font-weight="750"
+                letter-spacing="-3.2"
+                fill="url(#v1Stroke)"
+              >
+                AI
+              </text>
+            </g>
+          </g>
+        </svg>
+      </section>
+
+      <!-- Variant 02 -->
+      <section class="variant" aria-label="Variant 02">
+        <div class="variant-head">
+          <p class="variant-title">Variant 02</p>
+          <p class="variant-note">Cleaner brain outline + structured neural nodes</p>
+        </div>
+
+        <svg class="logo" viewBox="0 0 1200 420" role="img" aria-labelledby="v2t v2d">
+          <title id="v2t">AtaxAI logo variant 02</title>
+          <desc id="v2d">A crisp brain outline with a tidy neural mesh and a uniform ring around AI.</desc>
+
+          <defs>
+            <linearGradient id="v2Stroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0ea5e9" />
+              <stop offset="0.55" stop-color="#3b82f6" />
+              <stop offset="1" stop-color="#1e3a8a" />
+            </linearGradient>
+            <filter id="v2Shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="rgba(30, 58, 138, 0.12)" />
+            </filter>
+          </defs>
+
+          <g transform="translate(88 72)" filter="url(#v2Shadow)">
+            <path
+              d="M156 28
+                 C112 28 80 56 78 102
+                 C50 118 36 146 36 178
+                 C36 230 76 262 128 262
+                 C148 292 180 312 220 312
+                 C272 312 312 280 326 236
+                 C360 222 382 194 382 160
+                 C382 98 334 54 274 54
+                 C248 38 210 28 156 28Z"
+              fill="none"
+              stroke="url(#v2Stroke)"
+              stroke-width="12"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+
+            <g stroke="rgba(30, 58, 138, 0.30)" stroke-width="3.2" stroke-linecap="round" fill="none">
+              <path d="M118 126 L160 96 L214 110 L262 90 L304 118" />
+              <path d="M104 170 L150 152 L206 160 L258 150 L310 172" />
+              <path d="M128 222 L172 206 L224 214 L270 206 L302 224" />
+              <path d="M160 96 L150 152 L172 206" opacity="0.65" />
+              <path d="M214 110 L206 160 L224 214" opacity="0.65" />
+              <path d="M262 90 L258 150 L270 206" opacity="0.65" />
+            </g>
+
+            <g fill="#ffffff" stroke="url(#v2Stroke)" stroke-width="4">
+              <circle cx="118" cy="126" r="8.2" />
+              <circle cx="160" cy="96" r="8.2" />
+              <circle cx="214" cy="110" r="8.2" />
+              <circle cx="262" cy="90" r="8.2" />
+              <circle cx="304" cy="118" r="8.2" />
+
+              <circle cx="104" cy="170" r="8.2" />
+              <circle cx="150" cy="152" r="8.2" />
+              <circle cx="206" cy="160" r="8.2" />
+              <circle cx="258" cy="150" r="8.2" />
+              <circle cx="310" cy="172" r="8.2" />
+
+              <circle cx="128" cy="222" r="8.2" />
+              <circle cx="172" cy="206" r="8.2" />
+              <circle cx="224" cy="214" r="8.2" />
+              <circle cx="270" cy="206" r="8.2" />
+              <circle cx="302" cy="224" r="8.2" />
+            </g>
+
+            <path
+              d="M206 64 C192 90 192 120 206 146 C220 172 220 202 206 228 C192 254 192 280 206 306"
+              fill="none"
+              stroke="rgba(14, 165, 233, 0.38)"
+              stroke-width="6"
+              stroke-linecap="round"
+            />
+          </g>
+
+          <g transform="translate(540 0)">
+            <text
+              x="0"
+              y="250"
+              font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+              font-size="150"
+              font-weight="650"
+              letter-spacing="-3.2"
+              fill="#0b1b34"
+            >
+              Atax
+            </text>
+
+            <g transform="translate(310 0)">
+              <path
+                d="M30 124
+                   Q30 94 60 94
+                   L196 94
+                   Q226 94 226 124
+                   L226 266
+                   Q226 296 196 296
+                   L60 296
+                   Q30 296 30 266
+                   Z"
+                fill="none"
+                stroke="url(#v2Stroke)"
+                stroke-width="10"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                opacity="0.95"
+              />
+
+              <text
+                x="44"
+                y="250"
+                font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+                font-size="150"
+                font-weight="750"
+                letter-spacing="-3.2"
+                fill="url(#v2Stroke)"
+              >
+                AI
+              </text>
+            </g>
+          </g>
+        </svg>
+      </section>
+
+      <!-- Variant 03 -->
+      <section class="variant" aria-label="Variant 03">
+        <div class="variant-head">
+          <p class="variant-title">Variant 03</p>
+          <p class="variant-note">Bold icon + thicker AI ring (more “logo-like”)</p>
+        </div>
+
+        <svg class="logo" viewBox="0 0 1200 420" role="img" aria-labelledby="v3t v3d">
+          <title id="v3t">AtaxAI logo variant 03</title>
+          <desc id="v3d">A heavier brain icon with a more prominent ring around AI.</desc>
+
+          <defs>
+            <linearGradient id="v3Stroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#38bdf8" />
+              <stop offset="0.45" stop-color="#2563eb" />
+              <stop offset="1" stop-color="#1e3a8a" />
+            </linearGradient>
+            <filter id="v3Shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="rgba(30, 58, 138, 0.14)" />
+            </filter>
+          </defs>
+
+          <g transform="translate(80 62)" filter="url(#v3Shadow)">
+            <path
+              d="M168 24
+                 C112 24 76 58 76 114
+                 C48 130 32 160 32 196
+                 C32 256 78 294 146 294
+                 C166 328 204 354 252 354
+                 C312 354 360 314 376 262
+                 C416 244 442 206 442 162
+                 C442 90 384 42 312 42
+                 C284 30 236 24 168 24Z"
+              fill="rgba(14, 165, 233, 0.06)"
+              stroke="url(#v3Stroke)"
+              stroke-width="14"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+
+            <g stroke="rgba(14, 165, 233, 0.50)" stroke-width="3.6" stroke-linecap="round" fill="none">
+              <path d="M106 170 L160 120 L232 146 L308 112 L368 166 L314 228 L244 254 L176 226 Z" />
+              <path d="M160 120 L176 226 L232 146 L244 254 L314 228 L368 166 L308 112" opacity="0.6" />
+            </g>
+
+            <g fill="#ffffff" stroke="url(#v3Stroke)" stroke-width="4.4">
+              <circle cx="106" cy="170" r="9.2" />
+              <circle cx="160" cy="120" r="9.2" />
+              <circle cx="232" cy="146" r="9.2" />
+              <circle cx="308" cy="112" r="9.2" />
+              <circle cx="368" cy="166" r="9.2" />
+              <circle cx="314" cy="228" r="9.2" />
+              <circle cx="244" cy="254" r="9.2" />
+              <circle cx="176" cy="226" r="9.2" />
+            </g>
+
+            <path
+              d="M244 62 C226 92 226 126 244 160 C262 194 262 228 244 262 C226 296 226 324 244 352"
+              fill="none"
+              stroke="rgba(30, 58, 138, 0.40)"
+              stroke-width="7"
+              stroke-linecap="round"
+            />
+          </g>
+
+          <g transform="translate(540 0)">
+            <text
+              x="0"
+              y="250"
+              font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+              font-size="150"
+              font-weight="650"
+              letter-spacing="-3.2"
+              fill="#0b1b34"
+            >
+              Atax
+            </text>
+
+            <g transform="translate(310 0)">
+              <path
+                d="M24 118
+                   Q24 88 54 88
+                   L206 88
+                   Q236 88 236 118
+                   L236 272
+                   Q236 302 206 302
+                   L54 302
+                   Q24 302 24 272
+                   Z"
+                fill="none"
+                stroke="url(#v3Stroke)"
+                stroke-width="14"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                opacity="0.95"
+              />
+
+              <text
+                x="48"
+                y="250"
+                font-family="Inter, system-ui, -apple-system, Segoe UI, sans-serif"
+                font-size="150"
+                font-weight="750"
+                letter-spacing="-3.2"
+                fill="url(#v3Stroke)"
+              >
+                AI
+              </text>
+            </g>
+          </g>
+        </svg>
+      </section>
+    </main>
+  </body>
+</html>
