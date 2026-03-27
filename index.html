@@ -630,10 +630,10 @@
       width: 100%;
     }
 
-    /* Match standard PPTX slide canvas (1920x1080, 16:9), responsive down only */
+    /* Hosted PPTX display size: 960x540 (16:9), responsive down only */
     #panel-pptx .embed-wrap {
       flex: 0 0 auto;
-      width: min(1920px, 100%, calc((100vh - 9rem) * 16 / 9));
+      width: min(960px, 100%);
       aspect-ratio: 16 / 9;
       min-height: auto;
       margin: 0 auto;
