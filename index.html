@@ -56,14 +56,43 @@
     }
 
     /* —— Header (matches title slide: white bar + logo) —— */
+    .top-hover-zone {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1.1rem;
+      z-index: 60;
+    }
+
     .site-header {
       background: var(--white);
       border-bottom: 1px solid var(--gray-100);
       padding: 0.75rem 1.25rem;
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 50;
       box-shadow: var(--shadow);
+      transform: translateY(calc(-100% + 0.3rem));
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.24s ease, opacity 0.2s ease;
+    }
+
+    .top-hover-zone:hover + .site-header,
+    .site-header:hover,
+    .site-header:focus-within {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .site-header {
+        transition: none;
+      }
     }
 
     .header-inner {
@@ -1099,6 +1128,7 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <div class="top-hover-zone" aria-hidden="true"></div>
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="#" id="brand-home" aria-label="AtaxAI home">
